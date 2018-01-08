@@ -4,13 +4,41 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Demo: Math</title>
-	<script src="./build/globals/math.js"></script>
+	<script src="./build/globals/mathematics.js"></script>
 </head>
 <body>
-	<h1>Math</h1>
-
 	<script type="text/javascript">
-		new metal.Math();
+		new metal.Mathematics({
+			lvls: [
+				{
+					label: 'easy',
+					maxNumber: 3,
+					operators: [
+						{ label: '+', },
+						{ label: '-', }
+					]
+				},
+				{
+					label: 'normal',
+					maxNumber: 5,
+					operators: [
+						{ label: '+', },
+						{ label: '-', },
+						{ label: 'x', }
+					]
+				},
+				{
+					label: 'hard',
+					maxNumber: 10,
+					operators: [
+						{ label: '+', },
+						{ label: '-', },
+						{ label: 'x', },
+						{ label: '÷', }
+					]
+				}
+			]
+		});
 	</script>
 </body>
 </html>

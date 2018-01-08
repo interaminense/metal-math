@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './src/Math.js',
+	entry: './src/Mathematics.js',
 	module: {
 		rules: [{
 			test: /\.js$/,
@@ -28,7 +28,7 @@ module.exports = {
 	output: {
 		library: 'metal',
 		libraryTarget: 'this',
-		filename: './build/globals/math.js'
+		filename: './build/globals/mathematics.js'
 	},
 	plugins: [
 		new webpack.optimize.ModuleConcatenationPlugin()

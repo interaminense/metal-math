@@ -1,4 +1,4 @@
-# metal-math
+# metal-mathematics
 
 My awesome Metal.js project
 
