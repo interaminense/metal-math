@@ -1,0 +1,23 @@
+// Settings
+@import 'variables';
+@import 'mixins';
+@import 'colors';
+
+// Components
+@import 'background';
+@import 'iphone-x';
+
+body {
+	overflow: hidden;
+}
+
+body, html {
+	@include full-size();
+	margin: 0;
+	padding: 0;
+}
+
+.box {
+	width: 100px;
+	height: 100px;
+}

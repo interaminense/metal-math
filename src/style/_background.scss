@@ -1,0 +1,59 @@
+#{$c} {
+	@include flex-center();
+	@include full-size();
+
+	&:after {
+		color: #fff;
+    font-family: $Khand;
+    font-size: 3rem;
+		top: 3rem;
+		left: 3rem;
+    position: absolute;
+	}
+
+	&:before {
+		background: white;
+		content: "";
+		height: 120%;
+		left: 0;
+		margin: auto;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: rotate(-20deg);
+		width: 120%;
+	}
+
+	#{$c}__body {
+		@include flex-center();
+		overflow: hidden;
+
+		&:after {
+			content: "";
+			height: 120%;
+			left: 0;
+			margin: auto;
+			position: absolute;
+			right: 0;
+			top: 90%;
+			transform-origin: center 0;
+			transform: rotate(-20deg);
+			width: 120%;
+		}
+	}
+
+	&#{$c}--lvl-easy {
+		&, #{$c}__body:after { @extend .bg-color-yellow; }
+		&:after { content: "easy"; }
+	}
+
+	&#{$c}--lvl-normal {
+		&, #{$c}__body:after { @extend .bg-color-pink; }
+		&:after { content: "normal"; }
+	}
+
+	&#{$c}--lvl-hard {
+		&, #{$c}__body:after { @extend .bg-color-purple; }
+		&:after { content: "hard"; }
+	}
+}

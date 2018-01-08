@@ -1,0 +1,29 @@
+@mixin createPaleteColor($label, $color) {
+	$color-variant: 10%;
+	$color-darken: darken($color, $color-variant);
+	$color-lighten: lighten($color, $color-variant);
+
+	.bg-color-#{$label} {
+		background-color: $color;
+
+		&--dark { background-color: $color-darken; }
+		&--light { background-color: $color-lighten; }
+	}
+	.color-#{$label} {
+		color: $color;
+
+		&--dark { color: $color-darken; }
+		&--light { color: $color-lighten; }
+	}
+}
+
+@mixin flex-center() {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+@mixin full-size() {
+	height: 100%;
+	width: 100%;
+}
