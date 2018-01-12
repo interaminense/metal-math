@@ -9,17 +9,73 @@
 @import 'layout';
 @import 'button';
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	overflow: hidden;
+	font-size: 18px;
 }
 
 body, html {
-	@include full-size();
+	@include full-size;
 	margin: 0;
 	padding: 0;
 }
 
-.box {
-	width: 100px;
-	height: 100px;
+body,
+button,
+input {
+	font-family: $VarelaRound;
+}
+
+#{$c} {
+
+	#{$c}__body {
+		overflow: hidden;
+	}
+
+	#{$c}__layout-header {
+		transition: $transition-default;
+	}
+
+	@each $lvl in $lvls {
+		$lvl-label: nth($lvl, 1);
+		$lvl-color: nth($lvl, 2);
+
+		&#{$c}--lvl-#{$lvl-label} {
+
+			#{$c}-btn:not(#{$c}-btn--primary) {
+				@include btn-box-shadow($lvl-color, $btn-border-size);
+				color: $lvl-color;
+
+				&#{$c}-btn--active {
+					background-color: $lvl-color;
+					color: white;
+				}
+			}
+
+			#{$c}__layout-header {
+				color: $lvl-color;
+			}
+		}
+	}
+
+	#{$c}__init,
+	#{$c}__finish {
+		#{$c}-btn {
+			margin: .4rem;
+			width: 100%;
+		}
+		&#{$c}-btn--primary {
+			margin-top: 1.2rem;
+		}
+	}
+}
+
+#{$c}__init,
+#{$c}__start,
+#{$c}__finish {
+	@include full-size;
 }

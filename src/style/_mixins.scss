@@ -17,13 +17,29 @@
 	}
 }
 
-@mixin flex-center() {
+@mixin btn-box-shadow($color, $size) {
+	box-shadow: 0 0 0 $size $color;
+}
+
+@mixin flex-center {
 	align-items: center;
 	display: flex;
 	justify-content: center;
 }
 
-@mixin full-size() {
+@mixin flex-center-between-horizontal {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+}
+
+@mixin flex-center-between-vertical {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+@mixin full-size {
 	height: 100%;
 	width: 100%;
 }
