@@ -1,0 +1,16 @@
+#{$c}__layout {
+	@include flex-center-between-vertical;
+	@include full-size;
+	padding: $baseline $baseline;
+	position: relative;
+	text-align: center;
+
+	#{$c}__layout-header {
+		font-size: 1.8rem;
+		margin-top: 3rem;
+	}
+
+	#{$c}__layout-footer {
+		font-size: .85rem;
+	}
+}
