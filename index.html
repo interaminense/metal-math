@@ -11,6 +11,8 @@
 		new metal.Mathematics({
 			lvls: [
 				{
+					default: true,
+					internalLabel: 'easy',
 					label: 'easy',
 					maxNumber: 3,
 					operators: [
@@ -19,6 +21,8 @@
 					]
 				},
 				{
+					default: false,
+					internalLabel: 'normal',
 					label: 'normal',
 					maxNumber: 5,
 					operators: [
@@ -28,6 +32,8 @@
 					]
 				},
 				{
+					default: false,
+					internalLabel: 'hard',
 					label: 'hard',
 					maxNumber: 10,
 					operators: [
@@ -36,8 +42,21 @@
 						{ label: 'x', },
 						{ label: '÷', }
 					]
+				},
+				{
+					default: false,
+					internalLabel: 'very-hard',
+					label: 'very hard',
+					maxNumber: 15,
+					operators: [
+						{ label: '+', },
+						{ label: '-', },
+						{ label: 'x', },
+						{ label: '÷', }
+					]
 				}
-			]
+			],
+			time: 10
 		});
 	</script>
 </body>

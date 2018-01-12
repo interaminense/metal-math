@@ -1,27 +1,26 @@
 import Component, {Config} from 'metal-jsx';
-import {Button} from './components';
-import {CLASSNAME} from './Utils';
+import {Button, Layout} from './components';
+import {CLASSNAME, LANGUAGE} from './Utils';
 
 import './style/mathematics.scss';
 
-const LVL_DEFAULT = {
-	label: 'normal',
-	maxNumber: 5,
-	operator: {
-		label: '+'
-	}
-};
-
-const MESSAGE = {
-	success: 'Yeah! Congratulations!',
-	error: 'Ops, try again!'
-};
-
-const COUNTDOWN = 5;
-
 class Mathematics extends Component {
 	created() {
+		this.state.countdown = this.props.time;
+		this.setInitLvl();
 		this.setInitGame();
+	}
+
+	setInitLvl() {
+		[].map.call(this.props.lvls, lvl => {
+			if (lvl.default) this.state.lvl = lvl;
+		});
+	}
+
+	setLvl(label) {
+		[].map.call(this.props.lvls, lvl => {
+			if (lvl.label === label) this.state.lvl = lvl;
+		});
 	}
 
 	nextOperation() {
@@ -54,51 +53,27 @@ class Mathematics extends Component {
 		let result = 0;
 
 		switch(operator) {
-			case '+':
-				result = n1 + n2;
-				break;
-			case '-':
-				result = n1 - n2;
-				break;
-			case 'x':
-				result = n1 * n2;
-				break;
-			case '÷':
-				result = n1 / n2;
-				break;
-			default:
-				result = undefined;
-				break;
+			case '+': result = n1 + n2; break;
+			case '-': result = n1 - n2; break;
+			case 'x': result = n1 * n2; break;
+			case '÷': result = n1 / n2; break;
+			default: result = undefined; break;
 		}
 
 		return result.toFixed(0);
 	}
 
-	// getFormatNumber(n = 0) {
-	// 	return isFinite(n) ? n.toFixed(0) : 0;
-	// }
-
-	setLvl(label = LVL_DEFAULT.label) {
-		[].map.call(this.props.lvls, (lvl, index) => {
-			if (lvl.label === label) {
-				this.state.lvl = lvl;
-			}
-		});
-	}
-
 	setCountDown() {
 		let interval = setInterval(() => {
 			this.state.countdown -= 1;
-
-			console.log(this.state.countdown);
 		}, 1000);
 
 		setTimeout(() => {
 			clearInterval(interval);
 
-			this.state.countdown = COUNTDOWN;
+			this.state.countdown = this.props.time;
 			this.setFinishGame();
-		}, COUNTDOWN * 1000);
+		}, this.props.time * 1000);
 	}
 
 	setInitGame() {
@@ -149,10 +124,10 @@ class Mathematics extends Component {
 		if (value === predefinedValue) {
 			this.nextOperation();
 			this.state.hits += 1;
-			this.state.message = MESSAGE.success;
+			this.state.message = LANGUAGE.yeah;
 		} else {
 			this.state.errors += 1;
-			this.state.message = MESSAGE.error;
+			this.state.message = LANGUAGE.ops;
 		}
 
 		event.target.result.value = '';
@@ -166,33 +141,36 @@ class Mathematics extends Component {
 		event.delegateTarget.result.focus();
 	}
 
-	renderSelectLvl() {
-		const {lvl} = this.state;
-
-		return (
-			<div>
-				<Button data-lvl="easy" data-onclick={this._handleClickToggleLvl.bind(this)}>
-					{'easy'}
+	renderUIButtons() {
+		[].map.call(this.props.lvls, (_lvl, index) => {
+			return (
+				<Button
+					data-lvl={_lvl.label}
+					data-onclick={this._handleClickToggleLvl.bind(this)}
+					isActive={this.state.lvl.label === _lvl.label ? true : false}>
+					{_lvl.label}
 				</Button>
-
-				<Button data-lvl="normal" data-onclick={this._handleClickToggleLvl.bind(this)}>
-					{'normal'}
-				</Button>
-
-				<Button data-lvl="hard" data-onclick={this._handleClickToggleLvl.bind(this)}>
-					{'hard'}
-				</Button>
-			</div>
-		);
+			);
+		});
 	}
 
 	renderInitGame() {
-		return (
-			<div>
-				{'init game'}
+		const {lvl} = this.state;
 
-				{this.renderSelectLvl()}
-			</div>
+		return (
+			<Layout>
+				<Layout.Header>{LANGUAGE.initGame}</Layout.Header>
+				<Layout.Body>
+					{this.renderUIButtons()}
+
+					<Button
+						className={'primary'}
+						data-onclick={this._handleClickStartGame.bind(this)}>
+							{LANGUAGE.startGame}
+					</Button>
+				</Layout.Body>
+				<Layout.Footer></Layout.Footer>
+			</Layout>
 		);
 	}
 
@@ -201,51 +179,76 @@ class Mathematics extends Component {
 		const result = this.getCalc(n1, n2, operator);
 
 		return (
-			<div>
-				{lvl.label} {countdown}
-
-				<div>
+			<Layout>
+				<Layout.Header>
+					{lvl.label} {countdown}
+				</Layout.Header>
+				<Layout.Body>
 					{`${n1} ${operator} ${n2} = ${result}`}
-				</div>
 
-				<form
-					data-onclick="_handleClickSelectNumber"
-					data-onsubmit="_handleValidadeExpression">
+					<form
+						data-onclick={this._handleClickSelectNumber.bind(this)}
+						data-onsubmit={this._handleValidadeExpression.bind(this)}>
 
-					<input
-						name="result"
-						data-result={result}
-						type="number"
-						required
-					/>
+						<input
+							name="result"
+							data-result={result}
+							type="number"
+							required
+						/>
 
-					<div>
-						<button type="button" name="7">7</button>
-						<button type="button" name="8">8</button>
-						<button type="button" name="9">9</button>
-					</div>
-					<div>
-						<button type="button" name="4">4</button>
-						<button type="button" name="5">5</button>
-						<button type="button" name="6">6</button>
-					</div>
-					<div>
-						<button type="button" name="1">1</button>
-						<button type="button" name="2">2</button>
-						<button type="button" name="3">3</button>
-					</div>
-					<div>
-						<button type="button" name="0">0</button>
-					</div>
+						{/* <div>
+							<button type="button" name="7">7</button>
+							<button type="button" name="8">8</button>
+							<button type="button" name="9">9</button>
+						</div>
+						<div>
+							<button type="button" name="4">4</button>
+							<button type="button" name="5">5</button>
+							<button type="button" name="6">6</button>
+						</div>
+						<div>
+							<button type="button" name="1">1</button>
+							<button type="button" name="2">2</button>
+							<button type="button" name="3">3</button>
+						</div>
+						<div>
+							<button type="button" name="0">0</button>
+						</div>
 
-					<button type="submit">enter</button>
+						<button type="submit">{LANGUAGE.next}</button> */}
 
-				</form>
+						<div>
+							<Button type="button" name="7">7</Button>
+							<Button type="button" name="8">8</Button>
+							<Button type="button" name="9">9</Button>
+						</div>
 
-				<div>{message}</div>
+						<div>
+							<Button type="button" name="4">4</Button>
+							<Button type="button" name="5">5</Button>
+							<Button type="button" name="6">6</Button>
+						</div>
 
-				<div>{`hits: ${hits}, errors ${errors}`}</div>
-			</div>
+						<div>
+							<Button type="button" name="1">1</Button>
+							<Button type="button" name="2">2</Button>
+							<Button type="button" name="3">3</Button>
+						</div>
+
+						<div>
+							<Button type="button" name="0">0</Button>
+						</div>
+
+						<Button type="submit">{LANGUAGE.next}</Button>
+					</form>
+
+					{message}
+				</Layout.Body>
+				<Layout.Footer>
+					{`${LANGUAGE.hits}: ${hits}, ${LANGUAGE.errors} ${errors}`}
+				</Layout.Footer>
+			</Layout>
 		);
 	}
 
@@ -253,13 +256,21 @@ class Mathematics extends Component {
 		const {hits, errors} = this.state;
 
 		return (
-			<div>
-				<div>Finish game</div>
+			<Layout>
+				<Layout.Header>{LANGUAGE.finishGame}</Layout.Header>
+				<Layout.Body>
+					{this.renderUIButtons()}
 
-				<div>{`total hits: ${hits}, total errors ${errors}`}</div>
-
-				{this.renderSelectLvl()}
-			</div>
+					<Button
+						className={'primary'}
+						data-onclick={this._handleClickStartGame.bind(this)}>
+						{LANGUAGE.startGameAgain}
+					</Button>
+				</Layout.Body>
+				<Layout.Footer>
+					{`${LANGUAGE.totalHits}: ${hits}, ${LANGUAGE.totalErrors} ${errors}`}
+				</Layout.Footer>
+			</Layout>
 		);
 	}
 
@@ -267,73 +278,66 @@ class Mathematics extends Component {
 		const {start, finish, init, lvl} = this.state;
 
 		return (
-			<div class={`${CLASSNAME} ${CLASSNAME}--lvl-${lvl.label}`}>
-
+			<div class={`${CLASSNAME} ${CLASSNAME}--lvl-${lvl.internalLabel}`}>
 				<div class={`${CLASSNAME}__body iphone-x`}>
-
-					{
-						init &&
+					{init &&
 						<div class={`${CLASSNAME}__init`}>
 							{this.renderInitGame()}
-							<Button data-onclick={this._handleClickStartGame.bind(this)}>
-								{'start game'}
-							</Button>
-						</div>
-					}
+						</div>}
 
-					{
-						start &&
+					{start &&
 						<div class={`${CLASSNAME}__start`}>
 							{this.renderStartGame()}
-						</div>
-					}
+						</div>}
 
-					{
-						finish &&
+					{finish &&
 						<div class={`${CLASSNAME}__finish`}>
 							{this.renderFinishGame()}
-							<Button data-onclick={this._handleClickStartGame.bind(this)}>
-								{'start game again'}
-							</Button>
-						</div>
-					}
-
+						</div>}
 				</div>
-
 			</div>
 		);
 	}
 }
 
 Mathematics.PROPS = {
-	lvls: Config.arrayOf(Config.shapeOf({
-		label: Config.string().value(LVL_DEFAULT.label),
-		maxNumber: Config.number().value(LVL_DEFAULT.maxNumber),
-		operators: Config.arrayOf(Config.shapeOf({
-			label: Config.string().value(LVL_DEFAULT.operator.label),
-			id: Config.number().value(LVL_DEFAULT.operator.id)
-		}))
-	}))
+	lvls: Config.arrayOf(
+		Config.shapeOf({
+			default: Config.bool().required(),
+			internalLabel: Config.string().required(),
+			label: Config.string().required(),
+			maxNumber: Config.number().required(),
+			operators: Config.arrayOf(
+				Config.shapeOf({
+					label: Config.string().required(),
+					id: Config.number().required()
+				}).required()
+			)
+		}).required()
+	).required(),
+	time: Config.number().required()
 }
 
 Mathematics.STATE = {
 	lvl: Config.shapeOf({
-		label: Config.string().value(LVL_DEFAULT.label),
-		maxNumber: Config.number().value(LVL_DEFAULT.maxNumber),
+		default: Config.bool(),
+		internalLabel: Config.string(),
+		label: Config.string(),
+		maxNumber: Config.number(),
 		operator: Config.shapeOf({
-			label: Config.string().value(LVL_DEFAULT.operator.label)
+			label: Config.string()
 		})
 	}),
+	countdown: Config.number(),
+	errors: Config.number().value(0),
+	finish: Config.bool().value(false),
+	hits: Config.number().value(0),
+	init: Config.bool().value(true),
+	message: Config.string(),
 	n1: Config.number().value(0),
 	n2: Config.number().value(0),
 	operator: Config.string().value('+'),
-	message: Config.string(),
 	start: Config.bool().value(false),
-	finish: Config.bool().value(false),
-	init: Config.bool().value(true),
-	hits: Config.number().value(0),
-	errors: Config.number().value(0),
-	countdown: Config.number().value(COUNTDOWN)
 }
 
 export { Mathematics };
