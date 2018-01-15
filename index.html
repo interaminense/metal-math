@@ -9,11 +9,11 @@
 <body>
 	<script type="text/javascript">
 		new metal.Mathematics({
+			lvlDefault: 'normal',
 			lvls: [
 				{
-					default: true,
 					internalLabel: 'easy',
-					label: 'easy',
+					label: '😸 easy',
 					maxNumber: 3,
 					operators: [
 						{ label: '+', },
@@ -21,9 +21,8 @@
 					]
 				},
 				{
-					default: false,
 					internalLabel: 'normal',
-					label: 'normal',
+					label: '🧠 normal',
 					maxNumber: 5,
 					operators: [
 						{ label: '+', },
@@ -32,22 +31,9 @@
 					]
 				},
 				{
-					default: false,
 					internalLabel: 'hard',
-					label: 'hard',
+					label: '💀 hard',
 					maxNumber: 10,
-					operators: [
-						{ label: '+', },
-						{ label: '-', },
-						{ label: 'x', },
-						{ label: '÷', }
-					]
-				},
-				{
-					default: false,
-					internalLabel: 'very-hard',
-					label: 'very hard',
-					maxNumber: 15,
 					operators: [
 						{ label: '+', },
 						{ label: '-', },
@@ -56,7 +42,8 @@
 					]
 				}
 			],
-			time: 10
+			showResult: false,
+			time: 30
 		});
 	</script>
 </body>
