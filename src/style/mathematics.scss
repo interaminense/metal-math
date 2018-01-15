@@ -4,8 +4,6 @@
 @import 'colors';
 
 // Components
-@import 'background';
-@import 'iphone-x';
 @import 'layout';
 @import 'button';
 @import 'operation';
@@ -32,51 +30,128 @@ input {
 }
 
 #{$c} {
+	@include flex-center();
+	@include full-size();
+	transition: $transition-default;
 
 	#{$c}__body {
 		overflow: hidden;
+		border-radius: 30px;
+		box-shadow: $mathematics-body-shadow;
+		display: block;
+		height: $mathematics-body-h;
+		position: relative;
+		width: $mathematics-body-w;
 	}
 
 	#{$c}__layout-header {
 		transition: $transition-default;
 	}
 
+	#{$c}__layout-body form {
+		> input[type=number] {
+			font-size: $input-font-size;
+			width: 100%;
+			margin: 1rem 0;
+			border: 0;
+			border-bottom-width: $input-border-width;
+			border-style: solid;
+			border-radius: $input-borderr-radius;
+			text-align: center;
+
+			&::placeholder {
+				color: rgba($color-black, 0.15);
+			}
+		}
+		> input[type=number]::-webkit-inner-spin-button,
+		> input[type=number]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
+
 	@each $lvl in $lvls {
 		$lvl-label: nth($lvl, 1);
 		$lvl-color: nth($lvl, 2);
 
+		// Mathematics lvl
 		&#{$c}--lvl-#{$lvl-label} {
+			@include applyLayoutColor($lvl-color);
+		}
 
-			#{$c}-btn:not(#{$c}-btn--primary) {
-				@include btn-box-shadow($lvl-color, $btn-border-size);
-				color: $lvl-color;
+		// Mathematics is correct
+		&#{$c}--is-correct {
+			@include applyLayoutColor($color-emerald);
+		}
 
-				&#{$c}-btn--active {
-					background-color: $lvl-color;
-					color: white;
-				}
-			}
-
-			#{$c}__layout-header {
-				color: $lvl-color;
-			}
+		// Mathematics is wrong
+		&#{$c}--is-wrong {
+			@include applyLayoutColor($color-alizarin);
 		}
 	}
 
 	#{$c}__init,
 	#{$c}__finish {
 		#{$c}-btn {
-			margin: .4rem;
+			margin: .4rem 0;
 			width: 100%;
 		}
 		&#{$c}-btn--primary {
 			margin-top: 1.2rem;
 		}
 	}
+
+	#{$c}__init,
+	#{$c}__start,
+	#{$c}__finish {
+		@include full-size;
+	}
+
+	#{$c}__start {
+		form > div {
+    	display: flex;
+		}
+
+		#{$c}-btn {
+			margin: .2rem;
+			width: 100%;
+		}
+	}
+
+	#{$c}__timeout-amount {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: rgba($color-white, 0.4);
+	}
+
+	#{$c}__message {
+		min-height: 2rem;
+	}
+
+	#{$c}__message-hits {
+		font-size: 2rem;
+    display: flex;
+    justify-content: center;
+		margin-bottom: 1rem;
+
+		div:first-child {
+			margin-right: .5rem;
+		}
+
+		div:last-child {
+			margin-left: .5rem;
+		}
+	}
 }
 
-#{$c}__init,
-#{$c}__start,
-#{$c}__finish {
-	@include full-size;
+#{$c}--flex-center-between-horizontal,
+#{$c}__flex-center-between-horizontal {
+	@include flex-center-between-horizontal;
+}
+
+#{$c}--flex-center-between-vertical,
+#{$c}__flex-center-between-vertical {
+	@include flex-center-between-vertical;
 }

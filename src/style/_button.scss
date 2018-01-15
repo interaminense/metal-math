@@ -1,15 +1,15 @@
 #{$c}-btn {
-	@include btn-box-shadow($color-gray, $btn-border-size);
-	padding: $btn-padding;
+	background-color: $color-white;
 	border-radius: $btn-border-radius;
 	border: 0 none;
+	color: $color-black;;
 	font-size: $btn-font-size;
+	padding: $btn-padding;
 	text-transform: uppercase;
-	color: $color-gray;
 	transition: $transition-default;
 
 	&#{$c}-btn--active {
-		background-color:$color-gray;
-		color: white;
+		background-color: $color-black;
+		color: $color-white;
 	}
 }

@@ -17,10 +17,6 @@
 	}
 }
 
-@mixin btn-box-shadow($color, $size) {
-	box-shadow: 0 0 0 $size $color;
-}
-
 @mixin flex-center {
 	align-items: center;
 	display: flex;
@@ -42,4 +38,30 @@
 @mixin full-size {
 	height: 100%;
 	width: 100%;
+}
+
+@mixin applyLayoutColor($color) {
+	background-color: $color;
+
+	#{$c}__layout-body form > input[type=number] {
+		background: linear-gradient(rgba($color, 0), rgba($color, 0.5));
+	}
+
+	#{$c}__body {
+		background-color: lighten($color, 40%);
+	}
+
+	#{$c}-btn:not(#{$c}-btn--primary) {
+		color: darken($color, 10%);
+		background-color: lighten($color, 30%);
+
+		&#{$c}-btn--active {
+			background-color: $color;
+			color: white;
+		}
+	}
+
+	#{$c}__layout-header {
+		color: $color;
+	}
 }

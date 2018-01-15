@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
 
 // Classname Default
 $c: '.mathematics';
@@ -7,35 +8,68 @@ $c: '.mathematics';
 $baseline: 1rem;
 
 // Colors
-$color-gray: #89A1AA;
-$color-yellow: #f1c40f;
-$color-green: #27ae60;
-$color-blue: #2980b9;
-$color-gray-dark: #2c3e50;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-turquoise: #1abc9c;
+$color-green-sea: #16a085;
+$color-emerald: #2ecc71;
+$color-nephritis: #27ae60;
+$color-peter-river: #3498db;
+$color-belize-hole: #2980b9;
+$color-amethyst: #9b59b6;
+$color-wisteria: #8e44ad;
+$color-wet-asphalt: #34495e;
+$color-midnight-blue: #2c3e50;
+$color-sun-flower: #f1c40f;
+$color-orange: #f39c12;
+$color-carrot: #e67e22;
+$color-pumpkin: #d35400;
+$color-alizarin: #e74c3c;
+$color-pomegranate: #c0392b;
+$color-clouds: #ecf0f1;
+$color-silver: #bdc3c7;
+$color-concrete: #95a5a6;
+$color-asbestos: #7f8c8d;
 
 // Lvls
+// $lvls: (
+// 	('easy', $color-midnight-blue),
+// 	('normal', $color-midnight-blue),
+// 	('hard', $color-midnight-blue),
+// 	('very-hard', $color-midnight-blue),
+// 	('nevinha', $color-midnight-blue)
+// );
+
 $lvls: (
-	('easy', $color-yellow),
-	('normal', $color-blue),
-	('hard', $color-gray-dark),
-	('very-hard', $color-green)
+	('easy', $color-sun-flower),
+	('normal', $color-amethyst),
+	('hard', $color-belize-hole),
+	('very-hard', $color-wet-asphalt)
 );
 
-// Iphone X
-$iphone-x-w: 350px;
-$iphone-x-h: 680px;
-$iphone-x-color: #f1f1f1;
-$iphone-x-bg-color: #ffffff;
-$iphone-x-shadow: 0 20px 40px rgba(black, 0.30), 0 15px 10px rgba(black, 0.22);
+// Mathematics
+$mathematics-body-w: 350px;
+$mathematics-body-h: 680px;
+$mathematics-body-shadow: 0 20px 40px rgba(black, 0.30), 0 15px 10px rgba(black, 0.22);
 
 // Font Family
 $VarelaRound: 'Varela Round', sans-serif;
+$PoiretOne: 'Poiret One', cursive;
 
 // Button
 $btn-border-radius: 4px;
 $btn-border-size: 3px;
 $btn-padding: .8rem 1.6rem;
 $btn-font-size: .8rem;
+
+// Operation
+$operation-font-size: 5rem;
+$operation-font-family: $PoiretOne;
+
+// Input
+$input-font-size: 3rem;
+$input-border-width: 3px;
+$input-borderr-radius: 2px;
 
 // Transition
 $transition-default: all .2s linear;
