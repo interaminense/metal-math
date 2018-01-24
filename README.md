@@ -1,6 +1,6 @@
 # metal-mathematics
 
-My awesome Metal.js project
+Metal Math - Under Construction
 
 ## Setup
 
@@ -25,7 +25,7 @@ can find it [here](https://nodejs.org).
   npm run start
   ```
 
-5. Open the demo at http://localhost:4000/demos in your browser.
+5. Open the demo at http://localhost:4000/ in your browser.
 
 ## Contribute
 
