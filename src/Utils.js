@@ -1,6 +1,7 @@
 const CLASSNAME = 'mathematics';
 
 const LANGUAGE = {
+	back: 'back',
 	errors: 'errors',
 	hits: 'hits',
 	next: 'next',
@@ -29,4 +30,8 @@ const CALCULATE = (n1, n2, operator) => {
 	return result.toFixed(0);
 };
 
-export {CLASSNAME, LANGUAGE, CALCULATE};
+const getRandomNumber = (min, max) => {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export {CLASSNAME, LANGUAGE, CALCULATE, getRandomNumber};
