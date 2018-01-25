@@ -2,4 +2,8 @@
 	font-family: $operation-font-family;
 	word-spacing: -1rem;
 	font-size: $operation-font-size;
+
+	@media screen and (max-width: $mobile) {
+		font-size: 4rem;
+	}
 }

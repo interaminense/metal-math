@@ -67,6 +67,10 @@ input {
 			border-radius: $input-borderr-radius;
 			text-align: center;
 
+			@media screen and (max-width: $mobile) {
+				font-size: 2rem;
+			}
+
 			&::placeholder {
 				color: rgba($color-black, 0.15);
 			}
