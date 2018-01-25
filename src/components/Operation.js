@@ -6,6 +6,10 @@ const Main = (props) => {
 };
 
 class Operation extends Component {
+	/**
+	 * Lifecycle MetalJS
+	 * @inheritdoc
+	 */
 	render() {
 		const {number1, number2, operator, showResult} = this.props;
 		const result = CALCULATE(number1, number2, operator);
@@ -19,9 +23,32 @@ class Operation extends Component {
 }
 
 Operation.PROPS = {
+	/**
+	 * @type {number}
+	 * @default undefined
+	 * @required
+	 */
 	number1: Config.number().required(),
+
+	/**
+	 * @type {number}
+	 * @default undefined
+	 * @required
+	 */
 	number2: Config.number().required(),
+
+	/**
+	 * @type {string}
+	 * @default undefined
+	 * @required
+	 */
 	operator: Config.string().required(),
+
+	/**
+	 * @type {boolean}
+	 * @default false
+	 * @required
+	 */
 	showResult: Config.bool().value(false)
 }
 

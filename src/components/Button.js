@@ -2,27 +2,45 @@ import Component, {Config} from 'metal-jsx';
 import {CLASSNAME} from './../Utils';
 
 class Button extends Component {
-	classActive() {
-		return this.props.isActive ? `${CLASSNAME}-btn--active` : '';
-	}
-
+	/**
+	 * Lifecycle MetalJS
+	 * @inheritdoc
+	 */
 	render() {
+		const {children, className} = this.props;
+
 		return (
 			<button
 				{...this.otherProps()}
 				class={`
 					${CLASSNAME}-btn
-					${this.classActive()}
-					${CLASSNAME}-btn--${this.props.className}
+					${this.getActiveClass()}
+					${CLASSNAME}-btn--${className}
 				`}>
-				{this.props.children}
+				{children}
 			</button>
 		);
+	}
+
+	/**
+	 * Return the active class
+	 */
+	getActiveClass() {
+		return this.props.isActive ? `${CLASSNAME}-btn--active` : '';
 	}
 }
 
 Button.PROPS = {
+	/**
+	 * @type {boolean}
+	 * @default false
+	 */
 	isActive: Config.bool().value(false),
+
+	/**
+	 * @type {string|array}
+	 * @default default
+	 */
 	className: Config.oneOf([
 		'primary',
 		'default'

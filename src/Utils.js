@@ -1,5 +1,11 @@
+/**
+ * Class name default
+ */
 const CLASSNAME = 'mathematics';
 
+/**
+ * Object list language
+ */
 const LANGUAGE = {
 	back: 'back',
 	errors: 'errors',
@@ -16,6 +22,12 @@ const LANGUAGE = {
 	time: '🕑'
 };
 
+/**
+ * Return result calculate
+ * @param {*} n1
+ * @param {*} n2
+ * @param {*} operator
+ */
 const CALCULATE = (n1, n2, operator) => {
 	let result = 0;
 
@@ -30,6 +42,11 @@ const CALCULATE = (n1, n2, operator) => {
 	return result.toFixed(0);
 };
 
+/**
+ * Return random number
+ * @param {*} min
+ * @param {*} max
+ */
 const getRandomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }

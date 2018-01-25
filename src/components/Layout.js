@@ -12,6 +12,10 @@ const Footer = (props) => {
 }
 
 class Layout extends Component {
+	/**
+	 * Lifecycle MetalJS
+	 * @inheritdoc
+	 */
 	render() {
 		return(
 			<div class={`${CLASSNAME}__layout`}>
