@@ -8,6 +8,12 @@
 	#{$c}__layout-header {
 		font-size: 1.8rem;
 		margin-top: 3rem;
+
+		@media screen and (max-width: $mobile) {
+			& {
+				margin-top: 1rem;
+			}
+		}
 	}
 
 	#{$c}__layout-footer {

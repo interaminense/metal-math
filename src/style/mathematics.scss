@@ -42,6 +42,14 @@ input {
 		height: $mathematics-body-h;
 		position: relative;
 		width: $mathematics-body-w;
+
+		@media screen and (max-width: $mobile) {
+			& {
+				border-radius: 5px;
+				height: calc(100% - 2rem);
+				width: calc(100% - 2rem);
+			}
+		}
 	}
 
 	#{$c}__layout-header {
@@ -108,6 +116,12 @@ input {
 	}
 
 	#{$c}__start {
+		@media screen and (max-width: $mobile) {
+			#{$c}-btn--default {
+				font-size: 1.2rem;
+			}
+		}
+
 		form > div {
     	display: flex;
 		}

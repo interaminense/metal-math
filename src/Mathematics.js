@@ -151,7 +151,7 @@ class Mathematics extends Component {
 	 */
 	renderStartGame() {
 		const {
-			state: {lvl, n1, n2, operator, message, errors, hits, countdown},
+			state: {lvl, n1, n2, operator, message, errors, hits, countdown, isMobile},
 			props: {showResult}
 		} = this;
 		const result = CALCULATE(n1, n2, operator);
@@ -183,6 +183,7 @@ class Mathematics extends Component {
 							data-result={result}
 							type="number"
 							required
+							disabled={isMobile}
 						/>
 
 						<div>

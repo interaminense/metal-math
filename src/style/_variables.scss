@@ -31,15 +31,6 @@ $color-silver: #bdc3c7;
 $color-concrete: #95a5a6;
 $color-asbestos: #7f8c8d;
 
-// Lvls
-// $lvls: (
-// 	('easy', $color-midnight-blue),
-// 	('normal', $color-midnight-blue),
-// 	('hard', $color-midnight-blue),
-// 	('very-hard', $color-midnight-blue),
-// 	('nevinha', $color-midnight-blue)
-// );
-
 $lvls: (
 	('easy', $color-sun-flower),
 	('normal', $color-amethyst),
@@ -73,3 +64,6 @@ $input-borderr-radius: 2px;
 
 // Transition
 $transition-default: all .2s linear;
+
+// Mobile
+$mobile: 660px;
