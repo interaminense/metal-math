@@ -21,7 +21,7 @@
 		"dev": "npm run build && webpack-dev-server --inline --hot",
 		"postinstall": "npm run build",
 		"prepublish": "npm run compile",
-		"publish": "npm run prepublish && npm run build && npm run wedeploy",
+		"publish": "npm run prepublish && npm run wedeploy",
 		"start": "http-server . -p 4000",
 		"test": "jest",
 		"wedeploy": "cd build && we deploy -p mathematics && cd .."
