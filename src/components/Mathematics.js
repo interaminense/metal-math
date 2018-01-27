@@ -1,11 +1,12 @@
-import Component, {Config} from 'metal-jsx';
+
+import '../style/mathematics.scss';
+import { setTimeout } from 'timers';
+import {Button, Layout, Operation} from './';
+import {CLASSNAME, LANGUAGE, CALCULATE, getRandomNumber} from '../utils/Utils';
 import {EventHandler} from 'metal-events';
+import Component, {Config} from 'metal-jsx';
 import dom from 'metal-dom';
 import position from 'metal-position';
-import {Button, Layout, Operation} from './components';
-import {CLASSNAME, LANGUAGE, CALCULATE, getRandomNumber} from './Utils';
-
-import './style/mathematics.scss';
 
 let removeClassIsCorrect = undefined;
 let removeMessage = undefined;
@@ -26,7 +27,9 @@ class Mathematics extends Component {
 	 * Lifecycle MetalJS
 	 */
 	attached() {
-		this.state.isMobile = this.element.clientWidth < 768 ? true : false;
+		setTimeout(() => {
+			this.state.isMobile = this.element.clientWidth < 768 ? true : false;
+		}, 0);
 	}
 
 	/**
@@ -206,7 +209,7 @@ class Mathematics extends Component {
 
 						<div>
 							<Button name="0" type="button">0</Button>
-							<Button className={'primary'} name="deleteNumber" type="button">{LANGUAGE.back}</Button>
+							<Button className={'primary'} name="deleteNumber" type="reset">{LANGUAGE.back}</Button>
 							<Button className={'primary'} type="submit">{LANGUAGE.next}</Button>
 						</div>
 
@@ -373,16 +376,12 @@ class Mathematics extends Component {
 	 * @param {*} event
 	 */
 	_handleClickButton(event) {
-		// If button isn't submit
+		// If button is a submit type, return
 		if (event.target.type !== 'button') {
 			return;
 		}
-		// If button has name 'deleteNumbers'
-		else if (event.target.name == 'deleteNumbers') {
-			event.delegateTarget.result.value = 0;
-		} else {
-			event.delegateTarget.result.value += event.target.name;
-		}
+
+		event.delegateTarget.result.value += event.target.name;
 
 		// Set focus on display
 		this.setFocus(event.delegateTarget.result);
@@ -418,6 +417,8 @@ class Mathematics extends Component {
 	 */
 	_handleClickValidadeExpression(event) {
 		event.preventDefault();
+
+		if (event.target.result.value === '') return;
 
 		let value = event.target.result.value;
 		let predefinedValue = event.target.result.getAttribute('data-result');
@@ -463,8 +464,7 @@ Mathematics.PROPS = {
 			maxNumber: Config.number().required(),
 			operators: Config.arrayOf(
 				Config.shapeOf({
-					id: Config.number().required(),
-					label: Config.string().required()
+					label: Config.oneOf(['+', '-', 'x', '÷']).required()
 				}).required()
 			)
 		}).required()
