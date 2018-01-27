@@ -1,15 +1,15 @@
 {
-	"name": "metal-mathematics",
+	"name": "mathematics",
 	"version": "0.0.0",
-	"description": "My awesome Metal.js project",
+	"description": "Learn mathematics joking",
 	"license": "BSD",
 	"repository": "interaminense/metal-math",
 	"engines": {
 		"node": ">=0.12.0",
 		"npm": ">=3.0.0"
 	},
-	"main": "lib/Math.js",
-	"jsnext:main": "src/Math.js",
+	"main": "lib/App.js",
+	"jsnext:main": "src/App.js",
 	"files": [
 		"lib",
 		"src",
@@ -37,7 +37,8 @@
 	},
 	"dependencies": {
 		"bootstrap": "^3.3.6",
-		"metal-jsx": "^2.0.0"
+		"metal-jsx": "^2.0.0",
+		"metal-router": "3.6.3"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.4.5",

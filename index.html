@@ -3,48 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<title>Demo: Math</title>
-	<script src="./build/globals/mathematics.js"></script>
+	<title>Mathematics</title>
+	<script src="./build/globals/app.js"></script>
 </head>
 <body>
 	<script type="text/javascript">
-		new metal.Mathematics({
-			lvlDefault: 'normal',
-			lvls: [
-				{
-					internalLabel: 'easy',
-					label: '😸 easy',
-					maxNumber: 3,
-					operators: [
-						{ label: '+', },
-						{ label: '-', }
-					]
-				},
-				{
-					internalLabel: 'normal',
-					label: '🧠 normal',
-					maxNumber: 5,
-					operators: [
-						{ label: '+', },
-						{ label: '-', },
-						{ label: 'x', }
-					]
-				},
-				{
-					internalLabel: 'hard',
-					label: '💀 hard',
-					maxNumber: 10,
-					operators: [
-						{ label: '+', },
-						{ label: '-', },
-						{ label: 'x', },
-						{ label: '÷', }
-					]
-				}
-			],
-			showResult: false,
-			time: 30
-		});
+		new metal.App();
 	</script>
 </body>
 </html>
