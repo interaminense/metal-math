@@ -209,7 +209,7 @@ class Mathematics extends Component {
 
 						<div>
 							<Button name="0" type="button">0</Button>
-							<Button className={'primary'} name="deleteNumber" type="reset">{LANGUAGE.back}</Button>
+							<Button className={'primary'} name="deleteNumber" type="reset">{LANGUAGE.reset}</Button>
 							<Button className={'primary'} type="submit">{LANGUAGE.next}</Button>
 						</div>
 

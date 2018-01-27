@@ -1,5 +1,5 @@
 import Component, {Config} from 'metal-jsx';
-import {CLASSNAME} from './../Utils';
+import {CLASSNAME} from './../utils/Utils';
 
 class Button extends Component {
 	/**

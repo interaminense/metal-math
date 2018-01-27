@@ -1,5 +1,5 @@
 import Component, {Config} from 'metal-jsx';
-import {CLASSNAME} from './../Utils';
+import {CLASSNAME} from './../utils/Utils';
 
 const Header = (props) => {
 	return <div class={`${CLASSNAME}__layout-header`}>{props.children}</div>

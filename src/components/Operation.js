@@ -1,5 +1,5 @@
 import Component, {Config} from 'metal-jsx';
-import {CLASSNAME, CALCULATE} from './../Utils.js';
+import {CLASSNAME, CALCULATE} from './../utils/Utils.js';
 
 const Main = (props) => {
 	return <div class={`${CLASSNAME}__operation`}>{props.children}</div>;

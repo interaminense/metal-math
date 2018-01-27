@@ -7,7 +7,6 @@ const CLASSNAME = 'mathematics';
  * Object list language
  */
 const LANGUAGE = {
-	back: 'back',
 	errors: 'errors',
 	hits: 'hits',
 	next: 'next',
@@ -15,9 +14,10 @@ const LANGUAGE = {
 	totalErrors: 'total erros',
 	totalHits: 'total hits',
 	yeah: '👏 Yeah, congratulations!',
-	initGame: '🎮 Mathematics',
+	initGame: '🎮 Mathematics test',
 	startGame: '🏁 Start game',
 	finishGame: '🎯 Game Over',
+	reset: 'reset',
 	startGameAgain: '🏁 Start game again',
 	time: '🕑'
 };
