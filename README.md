@@ -1,31 +1,6 @@
-# metal-mathematics
+# metal-math
 
 Metal Math - Under Construction
-
-## Setup
-
-1. Install NodeJS >= v0.12.0 and NPM >= v3.0.0, if you don't have it yet. You
-can find it [here](https://nodejs.org).
-
-2. Install local dependencies:
-
-  ```
-  npm install
-  ```
-
-3. Build the code:
-
-  ```
-  npm run build
-  ```
-
-4. Start the demo server:
-
-  ```
-  npm run start
-  ```
-
-5. Open the demo at http://localhost:4000/ in your browser.
 
 ## Contribute
 
