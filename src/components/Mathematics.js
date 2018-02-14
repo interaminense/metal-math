@@ -1,8 +1,7 @@
 
 import '../style/mathematics.scss';
-import { setTimeout } from 'timers';
 import {Button, Layout, Operation} from './';
-import {CLASSNAME, LANGUAGE, CALCULATE, getRandomNumber} from '../utils/Utils';
+import {CLASSNAME, LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber} from '../utils/Utils';
 import {EventHandler} from 'metal-events';
 import Component, {Config} from 'metal-jsx';
 import dom from 'metal-dom';
@@ -13,8 +12,8 @@ let removeMessage = undefined;
 
 class Mathematics extends Component {
 	/**
-	 * @inheritdoc
 	 * Lifecycle MetalJS
+	 * @inheritdoc
 	 */
 	created() {
 		this.state.countdown = this.props.time;
@@ -23,8 +22,8 @@ class Mathematics extends Component {
 	}
 
 	/**
-	 * @inheritdoc
 	 * Lifecycle MetalJS
+	 * @inheritdoc
 	 */
 	attached() {
 		setTimeout(() => {
@@ -33,8 +32,8 @@ class Mathematics extends Component {
 	}
 
 	/**
-	 * @inheritdoc
 	 * Lifecyle MetalJS
+	 * @inheritdoc
 	 */
 	render() {
 		const {
@@ -223,13 +222,6 @@ class Mathematics extends Component {
 	}
 
 	/**
-	 * Return the calculate timeout amout
-	 */
-	getCalcTimeoutAmout() {
-		return 100 / this.props.time;
-	}
-
-	/**
 	 * Return the random operator
 	 */
 	getRandomOperator() {
@@ -245,7 +237,7 @@ class Mathematics extends Component {
 	setCountDown() {
 		let interval = setInterval(() => {
 			this.state.countdown -= 1;
-			this.state.timeoutAmount += this.getCalcTimeoutAmout();
+			this.state.timeoutAmount += getCalcTimeoutAmout(this.props.time);
 		}, 1000);
 
 		setTimeout(() => {
@@ -287,7 +279,7 @@ class Mathematics extends Component {
 
 	/**
 	 * Set class name 'is-correct' or 'is-wrong'
-	 * @param {*} isCorrect
+	 * @param {string} isCorrect
 	 */
 	setIsCorrectClassName(isCorrect = true) {
 		clearTimeout(removeClassIsCorrect);
@@ -305,7 +297,7 @@ class Mathematics extends Component {
 
 	/**
 	 * Set level game
-	 * @param {*} label
+	 * @param {string} label
 	 */
 	setLvl(label) {
 		[].map.call(this.props.lvls, lvl => {
@@ -315,7 +307,7 @@ class Mathematics extends Component {
 
 	/**
 	 * Set message
-	 * @param {*} message
+	 * @param {string} message
 	 */
 	setMessage(message) {
 		clearTimeout(removeMessage);
