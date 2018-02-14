@@ -14,7 +14,7 @@ const LANGUAGE = {
 	totalErrors: 'total erros',
 	totalHits: 'total hits',
 	yeah: '👏 Yeah, congratulations!',
-	initGame: '🎮 Mathematics test',
+	initGame: '🎮 Mathematics',
 	startGame: '🏁 Start game',
 	finishGame: '🎯 Game Over',
 	reset: 'reset',
