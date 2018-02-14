@@ -43,6 +43,14 @@ const CALCULATE = (n1, n2, operator) => {
 };
 
 /**
+ * Return the calculate timeout amout
+ * @param {number} time
+ */
+const getCalcTimeoutAmout = (time) => {
+	return 100 / time;
+}
+
+/**
  * Return random number
  * @param {number} min
  * @param {number} max
@@ -51,4 +59,4 @@ const getRandomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export {CLASSNAME, LANGUAGE, CALCULATE, getRandomNumber};
+export {CLASSNAME, LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber};
