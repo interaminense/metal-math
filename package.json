@@ -18,7 +18,6 @@
 	"scripts": {
 		"build": "webpack",
 		"compile": "babel --presets metal -d lib/ src/",
-		"dev": "npm run build && webpack-dev-server --inline --hot",
 		"postinstall": "npm run build",
 		"prepublish": "npm run compile",
 		"publish": "npm run prepublish && npm run wedeploy",
