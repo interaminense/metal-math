@@ -24,9 +24,9 @@ const LANGUAGE = {
 
 /**
  * Return result calculate
- * @param {*} n1
- * @param {*} n2
- * @param {*} operator
+ * @param {number} n1
+ * @param {number} n2
+ * @param {string} operator
  */
 const CALCULATE = (n1, n2, operator) => {
 	let result = 0;
@@ -44,8 +44,8 @@ const CALCULATE = (n1, n2, operator) => {
 
 /**
  * Return random number
- * @param {*} min
- * @param {*} max
+ * @param {number} min
+ * @param {number} max
  */
 const getRandomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
