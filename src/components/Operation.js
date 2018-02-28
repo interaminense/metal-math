@@ -1,9 +1,5 @@
 import Component, {Config} from 'metal-jsx';
-import {CLASSNAME, CALCULATE} from './../utils/Utils.js';
-
-const Main = (props) => {
-	return <div class={`${CLASSNAME}__operation`}>{props.children}</div>;
-};
+import {CALCULATE} from './../utils/Utils.js';
 
 class Operation extends Component {
 	/**
@@ -15,9 +11,9 @@ class Operation extends Component {
 		const result = CALCULATE(number1, number2, operator);
 
 		return (
-			<Operation.Main>
+			<div class={'mathematics__operation'}>
 				{`${number1} ${operator} ${number2}${showResult ? `= ${result}` : ''}`}
-			</Operation.Main>
+			</div>
 		);
 	}
 }
