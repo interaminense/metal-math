@@ -1,9 +1,4 @@
 /**
- * Class name default
- */
-const CLASSNAME = 'mathematics';
-
-/**
  * Object list language
  */
 const LANGUAGE = {
@@ -59,4 +54,4 @@ const getRandomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export {CLASSNAME, LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber};
+export {LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber};
