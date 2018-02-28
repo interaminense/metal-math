@@ -3,15 +3,22 @@ import Mathematics from './components/Mathematics';
 
 class App extends Component {
 	render() {
-		const {lvlDefault, lvls, showResult, time} = this.state;
+		const {lvlDefault, lvls, showResult, countdown} = this.state;
 
 		return (
-			<Mathematics lvlDefault={lvlDefault} lvls={lvls} showResult={showResult} time={time} />
+			<Mathematics
+				countdown={countdown}
+				lvlDefault={lvlDefault}
+				lvls={lvls}
+				showResult={showResult} />
 		);
 	}
 }
 
 App.STATE = {
+	countdown: {
+		value: 200
+	},
 	lvlDefault: {
 		value: 'easy'
 	},
@@ -43,17 +50,13 @@ App.STATE = {
 				operators: [
 					{ label: '+', },
 					{ label: '-', },
-					{ label: 'x', },
-					{ label: '÷', }
+					{ label: 'x', }
 				]
 			}
 		]
 	},
 	showResult: {
 		value: false
-	},
-	time: {
-		value: 20
 	}
 }
 
