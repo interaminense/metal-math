@@ -1,11 +1,14 @@
 
 import '../style/mathematics.scss';
 import {Button, Layout, Operation} from './';
-import {LANGUAGE, CALCULATE, getRandomNumber} from '../utils/Utils';
+import {LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber} from '../utils/Utils';
 import {EventHandler} from 'metal-events';
 import Component, {Config} from 'metal-jsx';
 import dom from 'metal-dom';
 import position from 'metal-position';
+
+let removeClassIsCorrect = undefined;
+let removeMessage = undefined;
 
 class Mathematics extends Component {
 	/**
@@ -19,33 +22,52 @@ class Mathematics extends Component {
 	}
 
 	/**
+	 * Lifecycle MetalJS
+	 * @inheritdoc
+	 */
+	attached() {
+		setTimeout(() => {
+			this.state.isMobile = this.element.clientWidth < 768 ? true : false;
+		}, 0);
+	}
+
+	/**
 	 * Lifecyle MetalJS
 	 * @inheritdoc
 	 */
 	render() {
-		const {start, finish, init, lvl} = this.state;
+		const {
+			start,
+			finish,
+			init,
+			lvl,
+			isCorrect,
+			timeoutAmount
+		} = this.state;
 
 		return (
-			<div class={`mathematics mathematics--lvl-${lvl.internalLabel}`}>
+			<div class={`mathematics mathematics--lvl-${lvl.internalLabel} ${isCorrect}`}>
 
 				<div class={'mathematics__body'}>
-					{init && (
+					<div
+						class={'mathematics__timeout-amount'}
+						style={`height: ${timeoutAmount}%`}
+					/>
+
+					{init &&
 						<div class={'mathematics__init'}>
 							{this.renderInitGame()}
-						</div>
-					)}
+						</div>}
 
-					{start && (
+					{start &&
 						<div class={'mathematics__start'}>
 							{this.renderStartGame()}
-						</div>
-					)}
+						</div>}
 
-					{finish && (
+					{finish &&
 						<div class={'mathematics__finish'}>
 							{this.renderFinishGame()}
-						</div>
-					)}
+						</div>}
 				</div>
 			</div>
 		);
@@ -127,7 +149,7 @@ class Mathematics extends Component {
 	 */
 	renderStartGame() {
 		const {
-			state: {lvl, n1, n2, operator, message, errors, hits, countdown},
+			state: {lvl, n1, n2, operator, message, errors, hits, countdown, isMobile},
 			props: {showResult}
 		} = this;
 		const result = CALCULATE(n1, n2, operator);
@@ -154,7 +176,13 @@ class Mathematics extends Component {
 						data-onclick={this._handleClickButton.bind(this)}
 						data-onsubmit={this._handleClickValidateExpression.bind(this)}>
 
-						<input name="result" data-result={result} type="number" required />
+						<input
+							name="result"
+							data-result={result}
+							type="number"
+							required
+							disabled={isMobile}
+						/>
 
 						<div>
 							<Button name="7" type="button">7</Button>
@@ -205,6 +233,7 @@ class Mathematics extends Component {
 	setCountDown() {
 		let interval = setInterval(() => {
 			this.state.countdown -= 1;
+			this.state.timeoutAmount += getCalcTimeoutAmout(this.props.countdown);
 		}, 1000);
 
 		setTimeout(() => {
@@ -231,7 +260,9 @@ class Mathematics extends Component {
 	 * @param {*} element
 	 */
 	setFocus(element) {
+		if (!this.state.isMobile) {
 			element.focus();
+		}
 	}
 
 	/**
@@ -240,6 +271,24 @@ class Mathematics extends Component {
 	setInitGame() {
 		this.setLvl();
 		this.setNextOperation();
+	}
+
+	/**
+	 * Set class name 'is-correct' or 'is-wrong'
+	 * @param {boolean} isCorrect
+	 */
+	setIsCorrectClassName(isCorrect = true) {
+		clearTimeout(removeClassIsCorrect);
+
+		if (isCorrect) {
+			this.state.isCorrect = 'mathematics--is-correc';
+		} else {
+			this.state.isCorrect = 'mathematics--is-wrong';
+		}
+
+		removeClassIsCorrect = setTimeout(() => {
+			this.state.isCorrect = '';
+		}, 1000);
 	}
 
 	/**
@@ -259,7 +308,13 @@ class Mathematics extends Component {
 	 * @param {string} message
 	 */
 	setMessage(message) {
+		clearTimeout(removeMessage);
+
 		this.state.message = message;
+
+		removeMessage = setTimeout(() => {
+			this.state.message = '';
+		}, 1000);
 	}
 
 	/**
@@ -299,7 +354,8 @@ class Mathematics extends Component {
 			hits: 0,
 			init: false,
 			message: '',
-			start: true
+			start: true,
+			timeoutAmount: 0
 		});
 
 		this.setCountDown();
@@ -361,9 +417,11 @@ class Mathematics extends Component {
 		if (value === predefinedValue) {
 			this.state.hits += 1;
 			this.setMessage(LANGUAGE.yeah);
+			this.setIsCorrectClassName();
 		} else {
 			this.state.errors += 1;
 			this.setMessage(LANGUAGE.ops);
+			this.setIsCorrectClassName(false);
 		}
 
 		this.setNextOperation();
@@ -402,7 +460,7 @@ Mathematics.PROPS = {
 			maxNumber: Config.number().required(),
 			operators: Config.arrayOf(
 				Config.shapeOf({
-					label: Config.oneOf(['+', '-', 'x']).required()
+					label: Config.oneOf(['+', '-', 'x', '÷']).required()
 				}).required()
 			)
 		}).required()
@@ -412,7 +470,7 @@ Mathematics.PROPS = {
 	 * @type {boolean}
 	 * @default false
 	 */
-	showResult: Config.bool().value(false),
+	showResult: Config.bool().value(false)
 }
 
 Mathematics.STATE = {
@@ -445,6 +503,18 @@ Mathematics.STATE = {
 	 * @default true
 	 */
 	init: Config.bool().value(true),
+
+	/**
+	 * @type {string}
+	 * @default ''
+	 */
+	isCorrect: Config.string().value(''),
+
+	/**
+	 * @type {boolean}
+	 * @default false
+	 */
+	isMobile: Config.bool().value(false),
 
 	/**
 	 * @type {string}
@@ -487,7 +557,13 @@ Mathematics.STATE = {
 	 * @type {boolean}
 	 * @default false
 	 */
-	start: Config.bool().value(false)
+	start: Config.bool().value(false),
+
+	/**
+	 * @type {number}
+	 * @default 0
+	 */
+	timeoutAmount: Config.number().value(0)
 }
 
 export { Mathematics };
