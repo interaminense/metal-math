@@ -1,14 +1,13 @@
 import Component, {Config} from 'metal-jsx';
-import {CLASSNAME} from './../utils/Utils';
 
 const Header = (props) => {
-	return <div class={`${CLASSNAME}__layout-header`}>{props.children}</div>
+	return <div class={'mathematics__layout-header'}>{props.children}</div>
 }
 const Body = (props) => {
-	return <div class={`${CLASSNAME}__layout-body`}>{props.children}</div>
+	return <div class={'mathematics__layout-body'}>{props.children}</div>
 }
 const Footer = (props) => {
-	return <div class={`${CLASSNAME}__layout-footer`}>{props.children}</div>
+	return <div class={'mathematics__layout-footer'}>{props.children}</div>
 }
 
 class Layout extends Component {
@@ -18,7 +17,7 @@ class Layout extends Component {
 	 */
 	render() {
 		return(
-			<div class={`${CLASSNAME}__layout`}>
+			<div class={'mathematics__layout'}>
 				{this.props.children}
 			</div>
 		);
