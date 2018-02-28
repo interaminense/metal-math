@@ -17,10 +17,10 @@ class App extends Component {
 
 App.STATE = {
 	countdown: {
-		value: 200
+		value: 30
 	},
 	lvlDefault: {
-		value: 'easy'
+		value: 'normal'
 	},
 	lvls: {
 		value: [
