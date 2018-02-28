@@ -36,6 +36,7 @@
 	},
 	"dependencies": {
 		"bootstrap": "^3.3.6",
+		"classnames": "^2.2.5",
 		"metal-jsx": "^2.0.0",
 		"metal-router": "3.6.3"
 	},
