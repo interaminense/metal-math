@@ -48,6 +48,4 @@ Operation.PROPS = {
 	showResult: Config.bool().value(false)
 }
 
-Operation.Main = Main;
-
 export default Operation;
