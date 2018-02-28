@@ -1,14 +1,11 @@
 
 import '../style/mathematics.scss';
 import {Button, Layout, Operation} from './';
-import {CLASSNAME, LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber} from '../utils/Utils';
+import {LANGUAGE, CALCULATE, getRandomNumber} from '../utils/Utils';
 import {EventHandler} from 'metal-events';
 import Component, {Config} from 'metal-jsx';
 import dom from 'metal-dom';
 import position from 'metal-position';
-
-let removeClassIsCorrect = undefined;
-let removeMessage = undefined;
 
 class Mathematics extends Component {
 	/**
@@ -16,19 +13,9 @@ class Mathematics extends Component {
 	 * @inheritdoc
 	 */
 	created() {
-		this.state.countdown = this.props.time;
+		this.state.countdown = this.props.countdown;
 		this.setLvl(this.props.lvlDefault);
 		this.setInitGame();
-	}
-
-	/**
-	 * Lifecycle MetalJS
-	 * @inheritdoc
-	 */
-	attached() {
-		setTimeout(() => {
-			this.state.isMobile = this.element.clientWidth < 768 ? true : false;
-		}, 0);
 	}
 
 	/**
@@ -36,42 +23,29 @@ class Mathematics extends Component {
 	 * @inheritdoc
 	 */
 	render() {
-		const {
-			start,
-			finish,
-			init,
-			lvl,
-			isCorrect,
-			timeoutAmount
-		} = this.state;
+		const {start, finish, init, lvl} = this.state;
 
 		return (
-			<div class={`
-				${CLASSNAME}
-				${CLASSNAME}--lvl-${lvl.internalLabel}
-				${isCorrect}
-			`}>
+			<div class={`mathematics mathematics--lvl-${lvl.internalLabel}`}>
 
-				<div class={`${CLASSNAME}__body`}>
-					<div
-						class={`${CLASSNAME}__timeout-amount`}
-						style={`height: ${timeoutAmount}%`}
-					/>
-
-					{init &&
-						<div class={`${CLASSNAME}__init`}>
+				<div class={'mathematics__body'}>
+					{init && (
+						<div class={'mathematics__init'}>
 							{this.renderInitGame()}
-						</div>}
+						</div>
+					)}
 
-					{start &&
-						<div class={`${CLASSNAME}__start`}>
+					{start && (
+						<div class={'mathematics__start'}>
 							{this.renderStartGame()}
-						</div>}
+						</div>
+					)}
 
-					{finish &&
-						<div class={`${CLASSNAME}__finish`}>
+					{finish && (
+						<div class={'mathematics__finish'}>
 							{this.renderFinishGame()}
-						</div>}
+						</div>
+					)}
 				</div>
 			</div>
 		);
@@ -81,12 +55,14 @@ class Mathematics extends Component {
 	 * Render UI buttons
 	 */
 	renderUIButtons() {
-		[].map.call(this.props.lvls, (lvl, index) => {
+		this.props.lvls.map((lvl, index) => {
+			const isActive = this.state.lvl.internalLabel === lvl.internalLabel ? true : false;
+
 			return (
 				<Button
 					data-lvl={lvl.internalLabel}
 					data-onclick={this._handleClickToggleLvl.bind(this)}
-					isActive={this.state.lvl.internalLabel === lvl.internalLabel ? true : false}>
+					isActive={isActive}>
 					{lvl.label}
 				</Button>
 			);
@@ -104,7 +80,7 @@ class Mathematics extends Component {
 				<Layout.Header>{LANGUAGE.finishGame}</Layout.Header>
 
 				<Layout.Body>
-					<div class={`${CLASSNAME}__message-hits`}>
+					<div class={'mathematics__message-hits'}>
 						<div>{`🤩 ${hits}`}</div>
 						<div>{`😰 ${errors}`}</div>
 					</div>
@@ -112,7 +88,7 @@ class Mathematics extends Component {
 					{this.renderUIButtons()}
 
 					<Button
-						className={'primary'}
+						style={'primary'}
 						data-onclick={this._handleClickStartGame.bind(this)}>
 						{LANGUAGE.startGameAgain}
 					</Button>
@@ -129,8 +105,6 @@ class Mathematics extends Component {
 	 * Render UI init game
 	 */
 	renderInitGame() {
-		const {lvl} = this.state;
-
 		return (
 			<Layout>
 				<Layout.Header>{LANGUAGE.initGame}</Layout.Header>
@@ -138,7 +112,7 @@ class Mathematics extends Component {
 					{this.renderUIButtons()}
 
 					<Button
-						className={'primary'}
+						style={'primary'}
 						data-onclick={this._handleClickStartGame.bind(this)}>
 							{LANGUAGE.startGame}
 					</Button>
@@ -153,7 +127,7 @@ class Mathematics extends Component {
 	 */
 	renderStartGame() {
 		const {
-			state: {lvl, n1, n2, operator, message, errors, hits, countdown, isMobile},
+			state: {lvl, n1, n2, operator, message, errors, hits, countdown},
 			props: {showResult}
 		} = this;
 		const result = CALCULATE(n1, n2, operator);
@@ -161,7 +135,7 @@ class Mathematics extends Component {
 		return (
 			<Layout>
 				<Layout.Header>
-					<div class={`${CLASSNAME}__flex-center-between-horizontal`}>
+					<div class={'mathematics__flex-center-between-horizontal'}>
 						<div>{lvl.label}</div>
 						<div>{`${LANGUAGE.time} ${countdown}`}</div>
 					</div>
@@ -174,19 +148,13 @@ class Mathematics extends Component {
 						showResult={showResult}
 					/>
 
-					<div class={`${CLASSNAME}__message`}>{message}</div>
+					<div class={'mathematics__message'}>{message}</div>
 
 					<form
 						data-onclick={this._handleClickButton.bind(this)}
-						data-onsubmit={this._handleClickValidadeExpression.bind(this)}>
+						data-onsubmit={this._handleClickValidateExpression.bind(this)}>
 
-						<input
-							name="result"
-							data-result={result}
-							type="number"
-							required
-							disabled={isMobile}
-						/>
+						<input name="result" data-result={result} type="number" required />
 
 						<div>
 							<Button name="7" type="button">7</Button>
@@ -208,8 +176,8 @@ class Mathematics extends Component {
 
 						<div>
 							<Button name="0" type="button">0</Button>
-							<Button className={'primary'} name="deleteNumber" type="reset">{LANGUAGE.reset}</Button>
-							<Button className={'primary'} type="submit">{LANGUAGE.next}</Button>
+							<Button style={'primary'} name="deleteNumber" type="reset">{LANGUAGE.reset}</Button>
+							<Button style={'primary'} type="submit">{LANGUAGE.next}</Button>
 						</div>
 
 					</form>
@@ -237,15 +205,14 @@ class Mathematics extends Component {
 	setCountDown() {
 		let interval = setInterval(() => {
 			this.state.countdown -= 1;
-			this.state.timeoutAmount += getCalcTimeoutAmout(this.props.time);
 		}, 1000);
 
 		setTimeout(() => {
 			clearInterval(interval);
 
-			this.state.countdown = this.props.time;
+			this.state.countdown = this.props.countdown;
 			this.setFinishGame();
-		}, this.props.time * 1000);
+		}, this.props.countdown * 1000);
 	}
 
 	/**
@@ -264,9 +231,7 @@ class Mathematics extends Component {
 	 * @param {*} element
 	 */
 	setFocus(element) {
-		if (!this.state.isMobile) {
 			element.focus();
-		}
 	}
 
 	/**
@@ -278,30 +243,14 @@ class Mathematics extends Component {
 	}
 
 	/**
-	 * Set class name 'is-correct' or 'is-wrong'
-	 * @param {string} isCorrect
-	 */
-	setIsCorrectClassName(isCorrect = true) {
-		clearTimeout(removeClassIsCorrect);
-
-		if (isCorrect) {
-			this.state.isCorrect = `${CLASSNAME}--is-correct`;
-		} else {
-			this.state.isCorrect = `${CLASSNAME}--is-wrong`;
-		}
-
-		removeClassIsCorrect = setTimeout(() => {
-			this.state.isCorrect = '';
-		}, 1000);
-	}
-
-	/**
 	 * Set level game
 	 * @param {string} label
 	 */
 	setLvl(label) {
-		[].map.call(this.props.lvls, lvl => {
-			if (lvl.internalLabel === label) this.state.lvl = lvl;
+		this.props.lvls.map(lvl => {
+			if (lvl.internalLabel === label) {
+				this.state.lvl = lvl;
+			}
 		});
 	}
 
@@ -310,13 +259,7 @@ class Mathematics extends Component {
 	 * @param {string} message
 	 */
 	setMessage(message) {
-		clearTimeout(removeMessage);
-
 		this.state.message = message;
-
-		removeMessage = setTimeout(() => {
-			this.state.message = '';
-		}, 1000);
 	}
 
 	/**
@@ -356,8 +299,7 @@ class Mathematics extends Component {
 			hits: 0,
 			init: false,
 			message: '',
-			start: true,
-			timeoutAmount: 0
+			start: true
 		});
 
 		this.setCountDown();
@@ -407,7 +349,7 @@ class Mathematics extends Component {
 	 * Handle click to validate expression
 	 * @param {*} event
 	 */
-	_handleClickValidadeExpression(event) {
+	_handleClickValidateExpression(event) {
 		event.preventDefault();
 
 		if (event.target.result.value === '') return;
@@ -419,11 +361,9 @@ class Mathematics extends Component {
 		if (value === predefinedValue) {
 			this.state.hits += 1;
 			this.setMessage(LANGUAGE.yeah);
-			this.setIsCorrectClassName();
 		} else {
 			this.state.errors += 1;
 			this.setMessage(LANGUAGE.ops);
-			this.setIsCorrectClassName(false);
 		}
 
 		this.setNextOperation();
@@ -437,6 +377,12 @@ class Mathematics extends Component {
 }
 
 Mathematics.PROPS = {
+	/**
+	 * @type {number}
+	 * @default 30
+	 */
+	countdown: Config.number().value(30),
+
 	/**
 	 * @type {string}
 	 * @default undefined
@@ -456,7 +402,7 @@ Mathematics.PROPS = {
 			maxNumber: Config.number().required(),
 			operators: Config.arrayOf(
 				Config.shapeOf({
-					label: Config.oneOf(['+', '-', 'x', '÷']).required()
+					label: Config.oneOf(['+', '-', 'x']).required()
 				}).required()
 			)
 		}).required()
@@ -467,12 +413,6 @@ Mathematics.PROPS = {
 	 * @default false
 	 */
 	showResult: Config.bool().value(false),
-
-	/**
-	 * @type {number}
-	 * @default 30
-	 */
-	time: Config.number().value(30)
 }
 
 Mathematics.STATE = {
@@ -505,18 +445,6 @@ Mathematics.STATE = {
 	 * @default true
 	 */
 	init: Config.bool().value(true),
-
-	/**
-	 * @type {string}
-	 * @default undefined
-	 */
-	isCorrect: Config.string(),
-
-	/**
-	 * @type {boolean}
-	 * @default false
-	 */
-	isMobile: Config.bool().value(false),
 
 	/**
 	 * @type {string}
@@ -559,13 +487,7 @@ Mathematics.STATE = {
 	 * @type {boolean}
 	 * @default false
 	 */
-	start: Config.bool().value(false),
-
-	/**
-	 * @type {number}
-	 * @default 0
-	 */
-	timeoutAmount: Config.number().value(0)
+	start: Config.bool().value(false)
 }
 
 export { Mathematics };
