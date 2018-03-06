@@ -281,7 +281,7 @@ class Mathematics extends Component {
 		clearTimeout(removeClassIsCorrect);
 
 		if (isCorrect) {
-			this.state.isCorrect = 'mathematics--is-correc';
+			this.state.isCorrect = 'mathematics--is-correct';
 		} else {
 			this.state.isCorrect = 'mathematics--is-wrong';
 		}
