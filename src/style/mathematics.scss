@@ -173,3 +173,17 @@ input {
 #{$c}__flex-center-between-vertical {
 	@include flex-center-between-vertical;
 }
+
+.app {
+	@include full-size;
+
+	.developed-by {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .6rem;
+	}
+}

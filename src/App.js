@@ -42,6 +42,12 @@ class App extends Component {
 					}
 				]} showResult={false} />
 
+				<a
+					class="developed-by"
+					href="https://github.com/interaminense"
+					target="_blank">
+					{'2018 - by @interaminense'}
+				</a>
 			</div>
 		);
 	}
