@@ -1,12 +1,14 @@
 // Settings
 @import 'variables';
 @import 'mixins';
-@import 'colors';
 
 // Components
 @import 'layout';
 @import 'button';
+@import 'form-save';
 @import 'operation';
+@import 'popup';
+@import 'table';
 
 * {
 	box-sizing: border-box;
@@ -56,27 +58,26 @@ input {
 		transition: $transition-default;
 	}
 
-	#{$c}__layout-body form {
-		> input[type=number] {
-			font-size: $input-font-size;
-			width: 100%;
-			margin: 1rem 0;
-			border: 0;
-			border-bottom-width: $input-border-width;
-			border-style: solid;
-			border-radius: $input-borderr-radius;
-			text-align: center;
+	#{$c}__input-custom {
+		font-size: $input-font-size;
+		width: 100%;
+		margin: 1rem 0;
+		border: 0;
+		border-bottom-width: $input-border-width;
+		border-style: solid;
+		border-radius: $input-borderr-radius;
+		text-align: center;
 
-			@media screen and (max-width: $mobile) {
-				font-size: 2rem;
-			}
-
-			&::placeholder {
-				color: rgba($color-black, 0.15);
-			}
+		@media screen and (max-width: $mobile) {
+			font-size: 2rem;
 		}
-		> input[type=number]::-webkit-inner-spin-button,
-		> input[type=number]::-webkit-outer-spin-button {
+
+		&::placeholder {
+			color: rgba($color-black, 0.15);
+		}
+
+		&[type=number]::-webkit-inner-spin-button,
+		&[type=number]::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 			margin: 0;
 		}
@@ -161,6 +162,22 @@ input {
 		div:last-child {
 			margin-left: .5rem;
 		}
+	}
+
+	#{$c}__text-rainbow {
+		@include rainbow(color, 1s);
+	}
+
+	#{$c}__text-left {
+		text-align: left;
+	}
+
+	#{$c}__text-right {
+		text-align: right;
+	}
+
+	#{$c}__tr-active {
+		@include rainbow(background-color, 5s);
 	}
 }
 

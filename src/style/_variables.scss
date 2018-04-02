@@ -38,10 +38,12 @@ $lvls: (
 	('very-hard', $color-wet-asphalt)
 );
 
+$shadow: 0 20px 40px rgba(black, 0.30), 0 15px 10px rgba(black, 0.22);
+
 // Mathematics
 $mathematics-body-w: 350px;
 $mathematics-body-h: 680px;
-$mathematics-body-shadow: 0 20px 40px rgba(black, 0.30), 0 15px 10px rgba(black, 0.22);
+$mathematics-body-shadow: $shadow;
 
 // Font Family
 $VarelaRound: 'Varela Round', sans-serif;
@@ -51,6 +53,7 @@ $PoiretOne: 'Poiret One', cursive;
 $btn-border-radius: 4px;
 $btn-border-size: 3px;
 $btn-padding: .8rem 1.6rem;
+$btn-padding-sm: .4rem .8rem;
 $btn-font-size: .8rem;
 
 // Operation
@@ -67,3 +70,13 @@ $transition-default: all .2s linear;
 
 // Mobile
 $mobile: 660px;
+
+//Popup
+$popup-height-hidden: 42px;
+$popup-padding: 2rem;
+$popup-position: 3rem;
+$popup-radius: 5px;
+$popup-shadow: $shadow;
+$popup-title: 1.8rem;
+$popup-width-hidden: 150px;
+$popup-width: 416px;

@@ -1,11 +1,23 @@
 
 import '../style/mathematics.scss';
 import {Button, Layout, Operation} from './';
-import {LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber} from '../utils/Utils';
+import {
+	CLASSNAME,
+	URL,
+	PATH,
+	LANGUAGE,
+	CALCULATE,
+	getCalcTimeoutAmout,
+	getRandomNumber
+} from '../utils/utils';
+import Fragment from './Fragment';
 import {EventHandler} from 'metal-events';
 import Component, {Config} from 'metal-jsx';
 import dom from 'metal-dom';
 import position from 'metal-position';
+import _ from 'lodash';
+import getCN from 'classnames';
+import WeDeploy from 'wedeploy';
 
 let removeClassIsCorrect = undefined;
 let removeMessage = undefined;
@@ -19,16 +31,103 @@ class Mathematics extends Component {
 		this.state.countdown = this.props.countdown;
 		this.setLvl(this.props.lvlDefault);
 		this.setInitGame();
+
+		WeDeploy.data(URL).get(PATH).then(response => {
+			this.state.score = response;
+		}).catch(error => {
+			console.error(error);
+		});
+
+		WeDeploy.data(URL).watch(PATH).on('changes', response => {
+			this.state.score = response;
+			this.state.loading = '';
+		}).on('fail', error => {
+			console.log(error);
+		});
+
+		setTimeout(() => {
+			this.state.isMobile = this.element.clientWidth < 660 ? true : false;
+
+		}, 0);
 	}
 
 	/**
-	 * Lifecycle MetalJS
-	 * @inheritdoc
+	 * Render popup
 	 */
-	attached() {
-		setTimeout(() => {
-			this.state.isMobile = this.element.clientWidth < 768 ? true : false;
-		}, 0);
+	renderPopup() {
+		const {
+			score,
+			currentName,
+			isMobile,
+			loading,
+			popupBtnLabel,
+			selectedFilter,
+			showPopup
+		} = this.state;
+
+		const scoreOrdered = _.orderBy(score, ['points', 'hits'], ['desc', 'desc']);
+
+		const classPopup = getCN(`${CLASSNAME}__popup`, {
+			[`${CLASSNAME}__popup-show`]: showPopup
+		})
+
+		return (
+			<Fragment>
+				{isMobile && showPopup && <div class={`${CLASSNAME}__popup-overlay`}></div>}
+
+				<div class={classPopup}>
+					<button
+						class={`${CLASSNAME}__popup-btn-show`}
+						data-onclick={this._handleClickTogglePopup.bind(this)}>
+							{popupBtnLabel}
+					</button>
+
+					<div class={`${CLASSNAME}__popup-title`}>
+						{LANGUAGE.score}
+						<span class={`${CLASSNAME}__popup-loading`}>{loading}</span>
+					</div>
+					<div class={`${CLASSNAME}__popup-btn`}>{this.renderUIButtonsFilterLevel()}</div>
+
+					<div class={`${CLASSNAME}__popup-body`}>
+						<table class={`${CLASSNAME}__table`}>
+							<thead>
+								<tr>
+									<th></th>
+									<th style={'width: 100%'} class={`${CLASSNAME}__text-left`}>{LANGUAGE.name}</th>
+									<th class={`${CLASSNAME}__text-left`}>{LANGUAGE.lvl}</th>
+									<th class={`${CLASSNAME}__text-right`}>{LANGUAGE.hits}</th>
+									<th class={`${CLASSNAME}__text-right`}>{LANGUAGE.errors}</th>
+									<th class={`${CLASSNAME}__text-right`}>{LANGUAGE.points}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{scoreOrdered
+									.filter(({points, lvl}) => selectedFilter === lvl || selectedFilter === 'all')
+									.map(({errors, hits, lvl, name, points}, index) => {
+										return (
+											<tr class={name === currentName ? `${CLASSNAME}__tr-active` : ''}>
+												<td class={`${CLASSNAME}__text-left`}>
+													<strong>{index + 1}</strong>
+												</td>
+												<td class={`${CLASSNAME}__text-left`}>
+													{index === 0 && <span>🥇</span>}
+													{index === 1 && <span>🥈</span>}
+													{index === 2 && <span>🥉</span>}
+													{name}
+												</td>
+												<td class={`${CLASSNAME}__text-left`}>{lvl}</td>
+												<td class={`${CLASSNAME}__text-right`}>{hits}</td>
+												<td class={`${CLASSNAME}__text-right`}>{errors}</td>
+												<td class={`${CLASSNAME}__text-right`}>{points}</td>
+											</tr>
+										);
+								})}
+						</tbody>
+						</table>
+					</div>
+				</div>
+			</Fragment>
+		);
 	}
 
 	/**
@@ -47,6 +146,8 @@ class Mathematics extends Component {
 
 		return (
 			<div class={`mathematics mathematics--lvl-${lvl.internalLabel} ${isCorrect}`}>
+
+				{this.renderPopup()}
 
 				<div class={'mathematics__body'}>
 					<div
@@ -92,20 +193,57 @@ class Mathematics extends Component {
 	}
 
 	/**
+	 * Render UI buttons
+	 */
+	renderUIButtonsFilterLevel() {
+		let isActive = this.state.selectedFilter === 'all' ? true : false;
+
+		return (
+			<Fragment>
+				<Button
+					data-lvl={'all'}
+					data-onclick={this._handleClickFilterLevel.bind(this)}
+					isActive={isActive}
+					size={'sm'}>
+					{LANGUAGE.all}
+				</Button>
+
+				{this.props.lvls.map((lvl, index) => {
+					isActive = this.state.selectedFilter === lvl.internalLabel ? true : false;
+
+					return (
+						<Button
+							data-lvl={lvl.internalLabel}
+							data-onclick={this._handleClickFilterLevel.bind(this)}
+							isActive={isActive}
+							size={'sm'}>
+							{lvl.label}
+						</Button>
+					);
+				})}
+
+			</Fragment>
+		);
+	}
+
+	/**
 	 * Render UI finish game
 	 */
 	renderFinishGame() {
-		const {hits, errors} = this.state;
+		const {hits, errors, finish, points, showSaveScore} = this.state;
 
 		return (
 			<Layout>
 				<Layout.Header>{LANGUAGE.finishGame}</Layout.Header>
 
 				<Layout.Body>
-					<div class={'mathematics__message-hits'}>
+					<div class={`${CLASSNAME}__message-hits`}>
 						<div>{`🤩 ${hits}`}</div>
 						<div>{`😰 ${errors}`}</div>
+						<div>{`😎 ${points}`}</div>
 					</div>
+
+					{showSaveScore && this.renderFormSaveScore()}
 
 					{this.renderUIButtons()}
 
@@ -117,7 +255,7 @@ class Mathematics extends Component {
 				</Layout.Body>
 
 				<Layout.Footer>
-					{`${LANGUAGE.totalHits}: ${hits}, ${LANGUAGE.totalErrors} ${errors}`}
+					{this.renderCurrentPoints()}
 				</Layout.Footer>
 			</Layout>
 		);
@@ -149,7 +287,7 @@ class Mathematics extends Component {
 	 */
 	renderStartGame() {
 		const {
-			state: {lvl, n1, n2, operator, message, errors, hits, countdown, isMobile},
+			state: {lvl, n1, n2, operator, message, countdown, isMobile},
 			props: {showResult}
 		} = this;
 		const result = CALCULATE(n1, n2, operator);
@@ -157,7 +295,7 @@ class Mathematics extends Component {
 		return (
 			<Layout>
 				<Layout.Header>
-					<div class={'mathematics__flex-center-between-horizontal'}>
+					<div class={`${CLASSNAME}__flex-center-between-horizontal`}>
 						<div>{lvl.label}</div>
 						<div>{`${LANGUAGE.time} ${countdown}`}</div>
 					</div>
@@ -170,13 +308,14 @@ class Mathematics extends Component {
 						showResult={showResult}
 					/>
 
-					<div class={'mathematics__message'}>{message}</div>
+					<div class={`${CLASSNAME}__message`}>{message}</div>
 
 					<form
 						data-onclick={this._handleClickButton.bind(this)}
 						data-onsubmit={this._handleClickValidateExpression.bind(this)}>
 
 						<input
+							class={`${CLASSNAME}__input-custom`}
 							name="result"
 							data-result={result}
 							type="number"
@@ -211,9 +350,44 @@ class Mathematics extends Component {
 					</form>
 				</Layout.Body>
 				<Layout.Footer>
-					{`${LANGUAGE.hits}: ${hits}, ${LANGUAGE.errors} ${errors}`}
+					{this.renderCurrentPoints()}
 				</Layout.Footer>
 			</Layout>
+		);
+	}
+
+	/**
+	 * Render the form save score
+	 */
+	renderFormSaveScore() {
+		return (
+			<form class={`${CLASSNAME}__form-save`} data-onsubmit={this._handleClickSaveScore.bind(this)}>
+				{LANGUAGE.saveYourScore}
+
+				<input
+					class={`${CLASSNAME}__input-custom`}
+					placeholder={LANGUAGE.whatYourName}
+					type="text"
+					required
+					maxlength="15"
+					name="name"
+				/>
+				<Button style={'primary'} type="submit">{LANGUAGE.save}</Button>
+			</form>
+		);
+	}
+
+	/**
+	 * Render the current points
+	 */
+	renderCurrentPoints() {
+		const {hits, errors, points} = this.state;
+
+		return (
+			<Fragment>
+				<span>{`${LANGUAGE.hits}: ${hits}, ${LANGUAGE.errors} ${errors}, `}</span>
+				<span class={`${CLASSNAME}__text-rainbow`}>{`${LANGUAGE.points}: ${points}`}</span>
+			</Fragment>
 		);
 	}
 
@@ -249,9 +423,11 @@ class Mathematics extends Component {
 	 */
 	setFinishGame() {
 		this.setState({
+			currentName: '',
 			start: false,
 			init: false,
-			finish: true
+			finish: true,
+			showSaveScore: true
 		});
 	}
 
@@ -281,9 +457,9 @@ class Mathematics extends Component {
 		clearTimeout(removeClassIsCorrect);
 
 		if (isCorrect) {
-			this.state.isCorrect = 'mathematics--is-correct';
+			this.state.isCorrect = `${CLASSNAME}--is-correct`;
 		} else {
-			this.state.isCorrect = 'mathematics--is-wrong';
+			this.state.isCorrect = `${CLASSNAME}--is-wrong`;
 		}
 
 		removeClassIsCorrect = setTimeout(() => {
@@ -354,6 +530,7 @@ class Mathematics extends Component {
 			hits: 0,
 			init: false,
 			message: '',
+			points: 0,
 			start: true,
 			timeoutAmount: 0
 		});
@@ -393,33 +570,56 @@ class Mathematics extends Component {
 
 	/**
 	 * Handle click to toggle level game
-	 * @param {*} event
+	 * @param {object} event
 	 */
-	_handleClickToggleLvl(event) {
-		let lvl = event.target.getAttribute('data-lvl');
+	_handleClickToggleLvl({target}) {
+		const lvl = target.dataset.lvl;
 
 		this.setLvl(lvl);
 	}
 
 	/**
+	 * Handle click to toggle popup
+	 */
+	_handleClickTogglePopup() {
+		this.state.showPopup = !this.state.showPopup;
+
+		if (this.state.showPopup) {
+			this.state.popupBtnLabel = LANGUAGE.closePopup;
+		} else {
+			this.state.popupBtnLabel = LANGUAGE.openPopup;
+		}
+	}
+
+	/**
+	 * Handle click to filter level
+	 * @param {object} event
+	 */
+	_handleClickFilterLevel({target}) {
+		this.state.selectedFilter = target.dataset.lvl;
+	}
+
+	/**
 	 * Handle click to validate expression
-	 * @param {*} event
+	 * @param {object} event
 	 */
 	_handleClickValidateExpression(event) {
 		event.preventDefault();
 
 		if (event.target.result.value === '') return;
 
-		let value = event.target.result.value;
-		let predefinedValue = event.target.result.getAttribute('data-result');
+		const value = event.target.result.value;
+		const predefinedValue = event.target.result.dataset.result;
 
 		// If is correct value
 		if (value === predefinedValue) {
 			this.state.hits += 1;
+			this.state.points += 1;
 			this.setMessage(LANGUAGE.yeah);
 			this.setIsCorrectClassName();
 		} else {
 			this.state.errors += 1;
+			this.state.points -= this.state.lvl.lostPoints;
 			this.setMessage(LANGUAGE.ops);
 			this.setIsCorrectClassName(false);
 		}
@@ -431,6 +631,38 @@ class Mathematics extends Component {
 
 		// Set focus on display
 		this.setFocus(event.target.result);
+	}
+
+	/**
+	 * Handle click to save score
+	 * @param {object} target
+	 */
+	_handleClickSaveScore({target}) {
+		event.preventDefault();
+
+		const errors = this.state.errors;
+		const hits = this.state.hits;
+		const lvl = this.state.lvl.internalLabel;
+		const name = target.name.value;
+		const points = this.state.points;
+
+		WeDeploy.data(URL).create(PATH, {
+			errors,
+			hits,
+			lvl,
+			name,
+			points
+		}).then(data => {
+			console.log(data);
+		}).catch(error => {
+			console.error(error);
+		});
+
+		this.setState({
+			currentName: target.name.value,
+			loading: LANGUAGE.loading,
+			showSaveScore: false
+		});
 	}
 }
 
@@ -462,7 +694,8 @@ Mathematics.PROPS = {
 				Config.shapeOf({
 					label: Config.oneOf(['+', '-', 'x', '÷']).required()
 				}).required()
-			)
+			),
+			lostPoints: Config.number().required()
 		}).required()
 	).required(),
 
@@ -479,6 +712,18 @@ Mathematics.STATE = {
 	 * @default 0
 	 */
 	countdown: Config.number().value(0),
+
+	/**
+	 * @type {string}
+	 * @default ''
+	 */
+	currentName: Config.string().value(''),
+
+	/**
+	 * @type {boolean}
+	 * @default false
+	 */
+	showSaveScore: Config.bool().value(false),
 
 	/**
 	 * @type {number}
@@ -520,6 +765,24 @@ Mathematics.STATE = {
 	 * @type {string}
 	 * @default undefined
 	 */
+	loading: Config.string(),
+
+	/**
+	 * @type {string}
+	 * @default 'all'
+	 */
+	selectedFilter: Config.string().value('all'),
+
+	/**
+	 * @type {boolean}
+	 * @default true
+	 */
+	showPopup: Config.bool().value(true),
+
+	/**
+	 * @type {string}
+	 * @default undefined
+	 */
 	message: Config.string(),
 
 	/**
@@ -532,7 +795,8 @@ Mathematics.STATE = {
 		maxNumber: Config.number(),
 		operator: Config.shapeOf({
 			label: Config.string()
-		})
+		}),
+		lostPoints: Config.number()
 	}),
 
 	/**
@@ -552,6 +816,24 @@ Mathematics.STATE = {
 	 * @default +
 	 */
 	operator: Config.string().value('+'),
+
+	/**
+	 * @type {number}
+	 * @default 0
+	 */
+	points: Config.number().value(0),
+
+	/**
+	 * @type {string}
+	 * @default LANGUAGE.closePopup
+	 */
+	popupBtnLabel: Config.string().value(LANGUAGE.closePopup),
+
+	/**
+	 * @type {array}
+	 * @default undefined
+	 */
+	score: Config.array(),
 
 	/**
 	 * @type {boolean}
