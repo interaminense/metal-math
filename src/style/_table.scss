@@ -1,0 +1,28 @@
+#{$c}__table {
+	font-size: .8rem;
+	border-collapse: collapse;
+
+	thead tr {
+		border-bottom: 2px solid rgba(0, 0, 0, .05);
+	}
+
+	td:first-child {
+		padding: .5rem 0 .5rem .5rem;
+	}
+
+	td:last-child {
+		padding: .5rem .5rem .5rem 0;
+	}
+
+	td:nth-child(2) {
+		white-space: nowrap;
+	}
+
+	tr:nth-child(even) {
+		background-color: rgba(0, 0, 0, .1);
+	}
+
+	td, th {
+		padding: .5rem;
+	}
+}

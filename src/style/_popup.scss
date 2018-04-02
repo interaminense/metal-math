@@ -1,0 +1,85 @@
+#{$c}__popup {
+	width: $popup-width;
+	position: absolute;
+	top: $popup-position;
+	left: $popup-position;
+	border-radius: $popup-radius;
+	padding: $popup-padding;
+	z-index: 1;
+	box-shadow: $popup-shadow;
+
+	#{$c}__popup-loading {
+		font-size: 1rem;
+		margin-left: 1rem;
+	}
+
+	#{$c}__popup-btn #{$c}-btn {
+		margin-right: .2rem;
+		margin-bottom: 1rem;
+	}
+
+	#{$c}__popup-title {
+		font-size: $popup-title;
+    margin-bottom: 1rem;
+	}
+
+	#{$c}__popup-body {
+		max-height: calc(100vh - 23rem);
+		overflow: auto;
+	}
+
+	#{$c}__table {
+		width: 100%;
+	}
+
+	#{$c}__popup-btn-show {
+		position: absolute;
+		right: $popup-padding;
+		top: $popup-padding;
+		border-width: 0;
+		background-color: transparent;
+		font-size: 1rem;
+	}
+
+	&:not(#{$c}__popup-show) {
+    overflow: hidden;
+    padding: .5rem;
+    width: $popup-width-hidden;
+		height: $popup-height-hidden;
+
+		#{$c}__popup-btn-show {
+			width: $popup-width-hidden;
+			height: $popup-height-hidden;
+			right: 0;
+			top: 0;
+		}
+
+		#{$c}__popup-title, #{$c}__popup-btn, #{$c}__popup-body {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+
+	@media screen and (max-width: $mobile) {
+		& {
+			width: calc(100% - #{$popup-position * 2});
+			top: initial;
+			bottom: $popup-position;
+
+			#{$c}__popup-btn #{$c}-btn {
+				width: 100%;
+				margin-bottom: .3rem;
+			}
+		}
+	}
+}
+
+#{$c}__popup-overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 1;
+}
