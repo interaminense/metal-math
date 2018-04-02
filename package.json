@@ -23,7 +23,7 @@
 		"publish": "npm run prepublish && npm run wedeploy",
 		"start": "http-server . -p 4000",
 		"test": "jest",
-		"wedeploy": "cd build && we deploy -p mathematics && cd .."
+		"deploy": "cd build && we deploy -p mathematics && cd .."
 	},
 	"keywords": [
 		"metal"
@@ -39,6 +39,7 @@
 		"classnames": "^2.2.5",
 		"metal-jsx": "^2.0.0",
 		"metal-router": "3.6.3"
+		"wedeploy": "^4.2.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.4.5",
