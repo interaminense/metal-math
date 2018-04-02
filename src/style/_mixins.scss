@@ -43,11 +43,15 @@
 @mixin applyLayoutColor($color) {
 	background-color: $color;
 
-	#{$c}__layout-body form > input[type=number] {
+	#{$c}__input-custom {
 		background: linear-gradient(rgba($color, 0), rgba($color, 0.5));
 	}
 
 	#{$c}__body {
+		background-color: lighten($color, 40%);
+	}
+
+	#{$c}__popup {
 		background-color: lighten($color, 40%);
 	}
 
@@ -61,7 +65,30 @@
 		}
 	}
 
-	#{$c}__layout-header {
+	#{$c}__layout-header,
+	#{$c}__popup-title,
+	#{$c}__popup-btn-show {
 		color: $color;
+	}
+}
+
+@mixin rainbow($prop, $time) {
+	$id: unique-id();
+
+	animation: rainbow-#{$id} $time linear infinite forwards;
+
+	@keyframes rainbow-#{$id} {
+		0%, 100% {
+			#{$prop}: $color-alizarin;
+		}
+		16.6%, 83.2% {
+			#{$prop}: $color-peter-river;
+		}
+		33.2%, 66.6% {
+			#{$prop}: $color-emerald;
+		}
+		50% {
+			#{$prop}: $color-sun-flower;
+		}
 	}
 }
