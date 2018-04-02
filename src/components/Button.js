@@ -1,5 +1,6 @@
 import Component, {Config} from 'metal-jsx';
 import getCN from 'classnames';
+import {CLASSNAME} from '../utils/utils';
 
 class Button extends Component {
 	/**
@@ -7,12 +8,13 @@ class Button extends Component {
 	 * @inheritdoc
 	 */
 	render() {
-		const {children, isActive, style} = this.props;
+		const {children, isActive, size, style} = this.props;
 		const classes = getCN(
-			'mathematics-btn',
+			`${CLASSNAME}-btn`,
 			{
-				['mathematics-btn--active']: isActive,
-				[`mathematics-btn--${style}`]: style
+				[`${CLASSNAME}-btn--active`]: isActive,
+				[`${CLASSNAME}-btn--${size}`]: size,
+				[`${CLASSNAME}-btn--${style}`]: style
 			}
 		);
 
@@ -32,6 +34,13 @@ Button.PROPS = {
 	 * @default false
 	 */
 	isActive: Config.bool().value(false),
+
+	/**
+	 * Adds size to the button
+	 * @type {string}
+	 * @default 'md'
+	 */
+	size: Config.oneOf(['sm', 'md']).value('md'),
 
 	/**
 	 * Sets the Button's color style
