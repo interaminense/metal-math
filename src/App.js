@@ -6,10 +6,8 @@ class App extends Component {
 		const {lvlDefault, lvls, showResult, countdown} = this.state;
 
 		return (
-			<Mathematics
-				countdown={30}
-				lvlDefault={'normal'}
-				lvls={[
+			<div class="app">
+				<Mathematics countdown={10} lvlDefault={'normal'} lvls={[
 					{
 						internalLabel: 'easy',
 						label: '😸 easy',
@@ -17,7 +15,8 @@ class App extends Component {
 						operators: [
 							{ label: '+', },
 							{ label: '-', }
-						]
+						],
+						lostPoints: 1
 					},
 					{
 						internalLabel: 'normal',
@@ -27,7 +26,8 @@ class App extends Component {
 							{ label: '+', },
 							{ label: '-', },
 							{ label: 'x', }
-						]
+						],
+						lostPoints: 2
 					},
 					{
 						internalLabel: 'hard',
@@ -37,10 +37,12 @@ class App extends Component {
 							{ label: '+', },
 							{ label: '-', },
 							{ label: 'x', }
-						]
+						],
+						lostPoints: 3
 					}
-				]}
-				showResult={false} />
+				]} showResult={false} />
+
+			</div>
 		);
 	}
 }
