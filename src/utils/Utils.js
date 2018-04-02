@@ -2,17 +2,29 @@
  * Object list language
  */
 const LANGUAGE = {
+	all: '🎲 all',
+	closePopup: '✖️',
 	errors: 'errors',
 	hits: 'hits',
+	loading: '⏳ loading...',
+	lvl: 'level',
 	next: 'next',
+	openPopup: '🏆 show score',
 	ops: '🤦 Ops, try again!',
+	name: 'name',
+	points: 'points',
+	position: 'position',
 	totalErrors: 'total erros',
 	totalHits: 'total hits',
 	yeah: '👏 Yeah, congratulations!',
 	initGame: '🎮 Mathematics',
+	score: '🏆 Score',
 	startGame: '🏁 Start game',
 	finishGame: '🎯 Game Over',
 	reset: 'reset',
+	save: '💾 save',
+	whatYourName: 'What your name?',
+	saveYourScore: 'Save your score',
 	startGameAgain: '🏁 Start game again',
 	time: '🕑'
 };
