@@ -4,12 +4,19 @@
 	border: 0 none;
 	color: $color-black;;
 	font-size: $btn-font-size;
-	padding: $btn-padding;
 	text-transform: uppercase;
 	transition: $transition-default;
 
 	&#{$c}-btn--active {
 		background-color: $color-black;
 		color: $color-white;
+	}
+
+	&#{$c}-btn--sm {
+		padding: $btn-padding-sm;
+	}
+
+	&#{$c}-btn--md {
+		padding: $btn-padding;
 	}
 }
