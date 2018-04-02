@@ -1,3 +1,7 @@
+const CLASSNAME = 'mathematics';
+const PATH = 'score';
+const URL = 'https://db-mathematics.wedeploy.io';
+
 /**
  * Object list language
  */
@@ -66,4 +70,12 @@ const getRandomNumber = (min, max) => {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export {LANGUAGE, CALCULATE, getCalcTimeoutAmout, getRandomNumber};
+export {
+	CALCULATE,
+	CLASSNAME,
+	getCalcTimeoutAmout,
+	getRandomNumber,
+	LANGUAGE,
+	PATH,
+	URL
+};
