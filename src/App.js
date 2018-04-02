@@ -7,7 +7,7 @@ class App extends Component {
 
 		return (
 			<div class="app">
-				<Mathematics countdown={10} lvlDefault={'normal'} lvls={[
+				<Mathematics countdown={20} lvlDefault={'normal'} lvls={[
 					{
 						internalLabel: 'easy',
 						label: '😸 easy',
